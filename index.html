@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"/>
+    <title>Latency</title>
+</head>
+
+<body>
+    <div id="circle"></div>
+    <div id="hand"></div>
+    <h1 id="digital">123</h1>
+</body>
+
+<script>
+    var digialElem = document.getElementById('digital');
+    var handElem = document.getElementById('hand');
+    var circleElem = document.getElementById('circle');
+
+    var num = 0;
+    var tickACount = 10;
+    var tickBCount = 10;
+    var tickCCount = 20;
+
+    for(var i=0; i<tickACount; i++){
+        var tick = document.createElement("div");
+        tick.classList.add("tickA");
+        var angle = ((i / tickACount) * 2 * Math.PI) - (Math.PI * 0.5);
+        tick.style.transform = `translate(${43*Math.cos(angle)}vh, ${43*Math.sin(angle)}vh)`;
+        tick.textContent = i;
+        document.body.appendChild(tick);
+    }
+
+    for(var i=0; i<tickBCount; i++){
+        var tick = document.createElement("div");
+        tick.classList.add("tickB");
+        var angle = ((i / tickBCount) * 2 * Math.PI) - (Math.PI * 0);
+        tick.style.transform = `translate(${43*Math.cos(angle)}vh, ${43*Math.sin(angle)}vh)`;
+        document.body.appendChild(tick);
+    }
+
+    for(var i=0; i<tickCCount; i++){
+        var tick = document.createElement("div");
+        tick.classList.add("tickC");
+        var angle = ((i / tickCCount) * 2 * Math.PI) - (Math.PI * 0.05);
+        tick.style.transform = `translate(${43*Math.cos(angle)}vh, ${43*Math.sin(angle)}vh)`;
+        document.body.appendChild(tick);
+    }
+
+    function step(timeStamp) {
+        var millis = Math.floor(timeStamp % 1000);
+        digialElem.textContent = millis;
+        digialElem.style.transform = `translateY(${(num%3)*14}vh)`;
+        handElem.style.transform = `rotate(${millis/1000}turn)`;
+        var color = "red";
+        if(num % 3 == 1){
+            color = "green";
+        }else if(num % 3 == 2){
+            color = "blue";
+        }
+        handElem.style.backgroundColor = color;
+        digialElem.style.color = color;
+        if(millis < 100){
+            color = "white";
+        }else{
+            color = "black";
+        }
+        document.body.style.backgroundColor = color;
+        num++;
+        window.requestAnimationFrame(step);
+    }
+    window.requestAnimationFrame(step);
+
+    document.body.onclick = ()=>{
+        if(document.fullscreenElement){
+            document.exitFullscreen();
+        }else{
+            document.body.requestFullscreen();
+        }
+    };
+</script>
+
+<style>
+    body {
+        margin: 0;
+        background-color: red;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+    }
+
+    #circle{
+        background-color: black;
+        position: absolute;
+        height: 92vh;
+        width: 92vh;
+        top: 4vh;
+        left: calc(50vw - 46vh);
+        border-radius: 100%;
+    }
+
+    .tickA{
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 4vh;
+        font-family: sans-serif;
+        font-weight: bold;
+        background-color: red;
+        position: absolute;
+        height: 4vh;
+        width: 4vh;
+        top: 48vh;
+        left: calc(50vw - 2vh);
+        border-radius: 100%;
+    }
+
+    .tickB{
+        background-color: blue;
+        position: absolute;
+        height: 2vh;
+        width: 2vh;
+        top: 49vh;
+        left: calc(50vw - 1vh);
+        border-radius: 100%;
+    }
+
+    .tickC{
+        background-color: green;
+        position: absolute;
+        height: 1vh;
+        width: 1vh;
+        top: 49.5vh;
+        left: calc(50vw - 0.5vh);
+        border-radius: 100%;
+    }
+
+    #hand{
+        background-color: white;
+        position: absolute;
+        height: 20vh;
+        width: 4vh;
+        top: 5vh;
+        left: calc(50vw - 2vh);
+        transform-origin: 2vh 45vh;
+        border-radius: 2vh;
+        writing-mode: vertical-rl;
+        display: flex;
+        align-items: center;
+        font-size: 4vh;
+        font-family: sans-serif;
+        font-weight: bold;
+
+    }
+
+    #digital{
+        font-style: normal;
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 29vh;
+        left: 30vw;
+        width: 40vw;
+        height: 14vh;
+        font-size: 16vh;
+        margin: 0;
+        color: white;
+    }
+</style>
+
+</html>
