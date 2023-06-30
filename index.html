@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <div id="background"></div>
     <div id="circle"></div>
     <div id="hand"></div>
     <h1 id="digital">123</h1>
@@ -63,10 +64,11 @@
         digialElem.style.color = color;
         if(millis < 100){
             color = "white";
+            console.log("white");
         }else{
             color = "black";
         }
-        document.body.style.backgroundColor = color;
+        background.style.backgroundColor = color;
         num++;
         window.requestAnimationFrame(step);
     }
@@ -82,7 +84,7 @@
 </script>
 
 <style>
-    body {
+    #background {
         margin: 0;
         background-color: red;
         position: absolute;
